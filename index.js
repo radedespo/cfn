@@ -414,6 +414,13 @@ function Cfn (name, template) {
       })
   }
 
+  this.output = function (field) {
+    return this.outputs()
+      .then(function (data) {
+        return data[field] || ''
+      })
+  }
+
   this.cleanup = function (opts) {
     const self = this
     let regex = opts.regex
@@ -505,6 +512,10 @@ cfn.validate = function (region, template, params) {
 
 cfn.outputs = function (name) {
   return new Cfn(name).outputs()
+}
+
+cfn.output = function (name, field) {
+  return new Cfn(name).output(field)
 }
 
 cfn.cleanup = function (regex, daysOld, dryRun) {
